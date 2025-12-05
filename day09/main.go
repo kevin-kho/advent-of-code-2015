@@ -69,6 +69,7 @@ func buildAdjacencyMatrix(data []byte) (map[string][]Edge, error) {
 }
 
 func solveMst(adj map[string][]Edge, start string) int {
+	// Incorrect for this problem
 
 	var res int
 	visited := make(map[string]bool)
@@ -89,7 +90,6 @@ func solveMst(adj map[string][]Edge, start string) int {
 			continue
 		}
 
-		fmt.Println(e.Destination, e.Weight)
 		res += e.Weight
 		visited[e.Destination] = true
 		order = append(order, e.Destination)
@@ -101,17 +101,14 @@ func solveMst(adj map[string][]Edge, start string) int {
 
 		}
 
-		fmt.Println("---")
-
 	}
-
-	fmt.Println(order)
 
 	return res
 
 }
 
 func solveDijkstra(adj map[string][]Edge, start string) int {
+	// Incorrect for this problem
 	var res int
 	visited := make(map[string]bool)
 
@@ -147,6 +144,34 @@ func solveDijkstra(adj map[string][]Edge, start string) int {
 
 }
 
+func solveDfs(adj map[string][]Edge, start string) int {
+
+	res := math.MaxInt
+	seen := make(map[string]bool)
+
+	var dfs func(currPos string, currVal int)
+	dfs = func(currPos string, currVal int) {
+		// exit condition: we seen the city before
+		if seen[currPos] {
+			return
+		}
+
+		seen[currPos] = true
+		if len(seen) == len(adj) {
+			res = min(res, currVal)
+		}
+
+		for _, dst := range adj[currPos] {
+			dfs(dst.Destination, currVal+dst.Weight)
+		}
+		delete(seen, currPos)
+	}
+	dfs(start, 0)
+
+	return res
+
+}
+
 func main() {
 
 	// filePath := "./inputExample.txt"
@@ -161,22 +186,10 @@ func main() {
 		log.Fatal(err)
 	}
 
-	var startingCity string
+	res := math.MaxInt
 	for k := range adj {
-		startingCity = k
-		break
+		res = min(res, solveDfs(adj, k))
 	}
-
-	res := solveMst(adj, startingCity)
 	fmt.Println(res)
-
-	res2 := math.MaxInt
-	for k := range adj {
-		v := solveDijkstra(adj, k)
-		fmt.Println(v)
-		res2 = min(res2, v)
-	}
-
-	fmt.Println(res2)
 
 }
