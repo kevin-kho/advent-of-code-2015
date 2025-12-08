@@ -8,12 +8,11 @@ import (
 func lookAndSay(slc []int) []int {
 
 	var res []int
-	p := 1
 
 	digit := slc[0]
 	count := 1
 
-	for p < len(slc) {
+	for p := 1; p < len(slc); p++ {
 		if slc[p] != digit {
 			res = append(res, count)
 			res = append(res, digit)
@@ -24,7 +23,6 @@ func lookAndSay(slc []int) []int {
 		} else {
 			count++
 		}
-		p++
 	}
 
 	res = append(res, count)
