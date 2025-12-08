@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"slices"
 )
 
 func lookAndSay(slc []int) []int {
@@ -35,11 +36,17 @@ func lookAndSay(slc []int) []int {
 
 func main() {
 	input := []int{1, 1, 1, 3, 2, 2, 2, 1, 1, 3}
+	part1 := slices.Clone(input)
+	part2 := slices.Clone(input)
 
 	for range 40 {
-		input = lookAndSay(input)
+		part1 = lookAndSay(part1)
 	}
+	fmt.Println(len(part1))
 
-	fmt.Println(len(input))
+	for range 50 {
+		part2 = lookAndSay(part2)
+	}
+	fmt.Println(len(part2))
 
 }
