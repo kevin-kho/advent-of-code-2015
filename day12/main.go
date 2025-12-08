@@ -4,6 +4,7 @@ import (
 	"aoc-2015/common"
 	"fmt"
 	"log"
+	"strings"
 	"unicode"
 )
 
@@ -43,6 +44,46 @@ func sumInts(slc []int) int {
 
 }
 
+func getObjects(data []byte) [][]byte {
+	var res [][]byte
+	var stack []int // index where an open brace occurs
+
+	for i, char := range string(data) {
+		if string(char) == "{" {
+			stack = append(stack, i)
+		} else if string(char) == "}" {
+
+			if len(stack) == 1 { // Ensures no repeated objects
+				start := stack[len(stack)-1]
+				res = append(res, data[start:i+1])
+			}
+
+			stack = stack[:len(stack)-1]
+
+		}
+
+	}
+
+	return res
+
+}
+
+func removeNestedObject(obj []byte) []byte {
+	inner := string(obj[1 : len(obj)-1])
+	if strings.Contains(inner, "{") && strings.Contains(inner, "}") {
+		start := strings.Index(inner, "{")
+		end := strings.LastIndex(inner, "}")
+		left := obj[:start]
+		right := obj[end+1:]
+
+		res := append(left, right...)
+		return res
+	}
+
+	return obj
+
+}
+
 func main() {
 
 	filePath := "./input.txt"
@@ -55,7 +96,17 @@ func main() {
 
 	nums := getNumbers(data)
 	sum := sumInts(nums)
-
 	fmt.Println(sum)
+
+	objs := getObjects(data)
+	for _, obj := range objs {
+		fmt.Println(string(obj))
+		fmt.Println("---")
+	}
+
+	for _, o := range objs {
+		fmt.Println(string(o))
+		fmt.Println("---")
+	}
 
 }
