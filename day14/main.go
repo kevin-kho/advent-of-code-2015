@@ -60,18 +60,18 @@ func moveReindeer(r Reindeer, seconds int) int {
 		if move > 0 && rest == 0 {
 			position += r.Speed
 			move--
-			if move == 0 {
+			if move == 0 { // finish moving
 				rest = r.RestDuration
+				continue
 			}
-			continue
 		}
 
+		// case resting
 		if rest > 0 {
 			rest--
 			if rest == 0 {
 				move = r.MoveDuration
 			}
-			continue
 		}
 
 	}
