@@ -5,6 +5,7 @@ import (
 	"bytes"
 	"fmt"
 	"log"
+	"slices"
 	"strconv"
 	"strings"
 )
@@ -102,8 +103,38 @@ func calcIngredientValue(in []Ingredient) int {
 
 }
 
+func solvePartOne(ingreds []Ingredient) int {
+
+	var res int
+
+	var recurse func(i int, curr []Ingredient)
+	recurse = func(i int, curr []Ingredient) {
+
+		// case: we have 100 ingredients
+		if len(curr) == 100 {
+			res = max(res, calcIngredientValue(curr))
+			return
+		}
+
+		// case: out of bounds
+		if !(i < len(ingreds)) {
+			return
+		}
+
+		// take
+		recurse(i, append(curr, ingreds[i]))
+
+		// no take
+		recurse(i+1, slices.Clone(curr))
+	}
+	recurse(0, []Ingredient{})
+	return res
+
+}
+
 func main() {
 	filePath := "./inputExample.txt"
+	filePath = "./input.txt"
 	data, err := common.ReadInput(filePath)
 	if err != nil {
 		log.Fatal(err)
@@ -115,6 +146,8 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println(ingredients)
+
+	res := solvePartOne(ingredients)
+	fmt.Println(res)
 
 }
