@@ -104,7 +104,7 @@ func createSues(data []byte) ([]Sue, error) {
 
 }
 
-func findSue(sues []Sue) *int {
+func findSuePartOne(sues []Sue) *int {
 	var res *int
 	for _, s := range sues {
 		// Check the value
@@ -156,6 +156,57 @@ func findSue(sues []Sue) *int {
 
 }
 
+func findSuePartTwo(sues []Sue) *int {
+	var res *int
+	for _, s := range sues {
+		// Check the value
+		if s.Children != nil && *s.Children != 3 {
+			continue
+		}
+
+		if s.Cats != nil && !(*s.Cats > 7) {
+			continue
+		}
+
+		if s.Samoyeds != nil && *s.Samoyeds != 2 {
+			continue
+		}
+
+		if s.Pomeranians != nil && !(*s.Pomeranians < 3) {
+			continue
+		}
+
+		if s.Akitas != nil && *s.Akitas != 0 {
+			continue
+		}
+
+		if s.Vizslas != nil && *s.Vizslas != 0 {
+			continue
+		}
+
+		if s.Goldfish != nil && !(*s.Goldfish < 5) {
+			continue
+		}
+
+		if s.Trees != nil && !(*s.Trees > 3) {
+			continue
+		}
+
+		if s.Cars != nil && *s.Cars != 2 {
+			continue
+		}
+
+		if s.Perfumes != nil && *s.Perfumes != 1 {
+			continue
+		}
+
+		res = &s.Number
+
+	}
+
+	return res
+}
+
 func main() {
 	filePath := "./input.txt"
 	data, err := common.ReadInput(filePath)
@@ -169,7 +220,10 @@ func main() {
 		log.Fatal(err)
 	}
 
-	res := findSue(sues)
+	res := findSuePartOne(sues)
 	fmt.Println(*res)
+
+	res2 := findSuePartTwo(sues)
+	fmt.Println(*res2)
 
 }
