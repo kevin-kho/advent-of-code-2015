@@ -3,8 +3,10 @@ package main
 import (
 	"aoc-2015/common"
 	"bytes"
+	"cmp"
 	"fmt"
 	"log"
+	"slices"
 	"strconv"
 	"strings"
 )
@@ -61,8 +63,44 @@ func createAdjMatrix(entries []Entry) map[string]map[string]int {
 
 }
 
+func solvePartOne(entries []Entry, adj map[string]map[string]int) int {
+
+	// Greedily select people to sit next to
+	// Doesn't work.
+	slices.SortFunc(entries, func(a, b Entry) int {
+		return cmp.Compare(a.Value, b.Value)
+	})
+	slices.Reverse(entries)
+
+	seated := map[string][]string{}
+	for _, e := range entries {
+		if len(seated[e.Subject]) < 2 && len(seated[e.Target]) < 2 {
+			seated[e.Subject] = append(seated[e.Subject], e.Target)
+			seated[e.Target] = append(seated[e.Target], e.Subject)
+		}
+	}
+
+	totalHappiness := calculateTotalHappiness(seated, adj)
+
+	return totalHappiness
+
+}
+
+func calculateTotalHappiness(seated map[string][]string, adj map[string]map[string]int) int {
+	var total int
+	for subject, neighbors := range seated {
+		for _, n := range neighbors {
+			total += adj[subject][n]
+		}
+	}
+
+	return total
+
+}
+
 func main() {
 	filePath := "./inputExample.txt"
+	filePath = "./input.txt"
 	data, err := common.ReadInput(filePath)
 	if err != nil {
 		log.Fatal(err)
@@ -76,5 +114,7 @@ func main() {
 	}
 
 	adj := createAdjMatrix(entries)
-	fmt.Println(adj)
+
+	res := solvePartOne(entries, adj)
+	fmt.Println(res)
 }
