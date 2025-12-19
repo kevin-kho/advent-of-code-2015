@@ -5,6 +5,7 @@ import (
 	"bytes"
 	"fmt"
 	"log"
+	"math"
 	"strconv"
 )
 
@@ -56,6 +57,44 @@ func getCombinations(containers []int) int {
 	return res
 }
 
+func getMinNumWays(containers []int) int {
+
+	containerWays := make(map[int]int)
+
+	var recurse func(i, curr, ct int)
+	recurse = func(i, curr, ct int) {
+		// exit condition
+		if curr >= 150 {
+			if curr == 150 {
+				containerWays[ct]++
+			}
+			return
+		}
+
+		// exit condition: oob
+		if !(i < len(containers)) {
+			return
+		}
+
+		// take
+		recurse(i+1, curr+containers[i], ct+1)
+
+		// no take
+		recurse(i+1, curr, ct)
+
+	}
+	recurse(0, 0, 0)
+
+	minContainers := math.MaxInt
+
+	for con, _ := range containerWays {
+		minContainers = min(minContainers, con)
+	}
+
+	return containerWays[minContainers]
+
+}
+
 func main() {
 	filePath := "./input.txt"
 	data, err := common.ReadInput(filePath)
@@ -71,5 +110,8 @@ func main() {
 
 	res := getCombinations(containers)
 	fmt.Println(res)
+
+	res2 := getMinNumWays(containers)
+	fmt.Println(res2)
 
 }
