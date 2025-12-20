@@ -1,12 +1,13 @@
 package main
 
 import (
-	"aoc-2015/common"
 	"bytes"
 	"fmt"
 	"log"
 	"math"
 	"strconv"
+
+	"github.com/kevin-kho/aoc-utilities/common"
 )
 
 func getContainers(data []byte) ([]int, error) {

@@ -1,9 +1,10 @@
 package main
 
 import (
-	"aoc-2015/common"
 	"fmt"
 	"log"
+
+	"github.com/kevin-kho/aoc-utilities/common"
 )
 
 func solve(directions []byte) int {

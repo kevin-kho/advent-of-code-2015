@@ -1,12 +1,13 @@
 package main
 
 import (
-	"aoc-2015/common"
 	"bytes"
 	"fmt"
 	"log"
 	"strconv"
 	"strings"
+
+	"github.com/kevin-kho/aoc-utilities/common"
 )
 
 type Sue struct {

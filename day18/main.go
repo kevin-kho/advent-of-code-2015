@@ -1,11 +1,12 @@
 package main
 
 import (
-	"aoc-2015/common"
 	"bytes"
 	"fmt"
 	"log"
 	"slices"
+
+	"github.com/kevin-kho/aoc-utilities/common"
 )
 
 type Dir struct {

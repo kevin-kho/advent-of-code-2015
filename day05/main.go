@@ -1,10 +1,11 @@
 package main
 
 import (
-	"aoc-2015/common"
 	"fmt"
 	"log"
 	"strings"
+
+	"github.com/kevin-kho/aoc-utilities/common"
 )
 
 func isVowel(char string) bool {

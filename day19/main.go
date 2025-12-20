@@ -1,13 +1,14 @@
 package main
 
 import (
-	"aoc-2015/common"
 	"bytes"
 	"fmt"
 	"log"
 	"slices"
 	"strings"
 	"unicode"
+
+	"github.com/kevin-kho/aoc-utilities/common"
 )
 
 func parseData(data []byte) (map[string][]string, string) {

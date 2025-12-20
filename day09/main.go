@@ -1,7 +1,6 @@
 package main
 
 import (
-	"aoc-2015/common"
 	"bytes"
 	"container/heap"
 	"fmt"
@@ -9,6 +8,8 @@ import (
 	"math"
 	"strconv"
 	"strings"
+
+	"github.com/kevin-kho/aoc-utilities/common"
 )
 
 type Edge struct {

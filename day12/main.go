@@ -1,11 +1,12 @@
 package main
 
 import (
-	"aoc-2015/common"
 	"fmt"
 	"log"
 	"strings"
 	"unicode"
+
+	"github.com/kevin-kho/aoc-utilities/common"
 )
 
 func getNumbers(data []byte) []int {
