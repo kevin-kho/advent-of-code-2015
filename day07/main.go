@@ -18,24 +18,30 @@ type Command struct {
 	Right       *string
 }
 
-func commandAssign(entry []string, wire map[string]int) {
+func commandAssign(entry []string, wire map[string]uint16) {
 
-	value, err := strconv.Atoi(entry[0])
-	if err != nil {
-		value = wire[entry[0]] // case: it's referring a wire
+	var value uint16
+	if v, err := strconv.Atoi(entry[0]); err != nil {
+		value = wire[entry[0]]
+	} else {
+		value = uint16(v)
 	}
+
 	dst := entry[len(entry)-1]
 
 	wire[dst] = value
 
 }
 
-func commandNot(entry []string, wire map[string]int) {
+func commandNot(entry []string, wire map[string]uint16) {
 
-	value, err := strconv.Atoi(entry[1])
-	if err != nil {
-		value = wire[entry[1]] // case: it's referring a wire
+	var value uint16
+	if v, err := strconv.Atoi(entry[1]); err != nil {
+		value = wire[entry[1]]
+	} else {
+		value = uint16(v)
 	}
+
 	value = ^value
 
 	dst := entry[len(entry)-1]
@@ -44,19 +50,25 @@ func commandNot(entry []string, wire map[string]int) {
 
 }
 
-func commandAndOr(entry []string, wire map[string]int) {
-	left, err := strconv.Atoi(entry[0])
-	if err != nil {
+func commandAndOr(entry []string, wire map[string]uint16) {
+
+	var left uint16
+	if l, err := strconv.Atoi(entry[0]); err != nil {
 		left = wire[entry[0]]
+	} else {
+		left = uint16(l)
 	}
 
-	right, err := strconv.Atoi(entry[2])
-	if err != nil {
+	var right uint16
+	if r, err := strconv.Atoi(entry[0]); err != nil {
 		right = wire[entry[2]]
+	} else {
+		right = uint16(r)
 	}
+
 	dst := entry[len(entry)-1]
 
-	var value int
+	var value uint16
 	if entry[1] == "AND" {
 		value = left & right
 	} else {
@@ -67,19 +79,25 @@ func commandAndOr(entry []string, wire map[string]int) {
 
 }
 
-func commandShift(entry []string, wire map[string]int) {
+func commandShift(entry []string, wire map[string]uint16) {
 
-	left, err := strconv.Atoi(entry[0])
-	if err != nil {
+	var left uint16
+	if l, err := strconv.Atoi(entry[0]); err != nil {
 		left = wire[entry[0]]
+	} else {
+		left = uint16(l)
 	}
-	right, err := strconv.Atoi(entry[2])
-	if err != nil {
-		right = wire[entry[2]]
+
+	var right uint16
+	if r, err := strconv.Atoi(entry[2]); err != nil {
+		right = wire[entry[0]]
+	} else {
+		right = uint16(r)
 	}
+
 	dst := entry[len(entry)-1]
 
-	var value int
+	var value uint16
 	if entry[1] == "LSHIFT" {
 		value = left << right
 	} else {
@@ -90,8 +108,8 @@ func commandShift(entry []string, wire map[string]int) {
 
 }
 
-func parseData(data []byte) map[string]int {
-	wire := make(map[string]int)
+func parseData(data []byte) map[string]uint16 {
+	wire := make(map[string]uint16)
 	for entry := range bytes.SplitSeq(data, []byte{10}) {
 
 		entryStrArr := strings.Split(string(entry), " ")
