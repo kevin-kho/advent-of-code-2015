@@ -136,6 +136,7 @@ func parseData(data []byte) map[string]uint16 {
 func main() {
 
 	filePath := "./inputExample.txt"
+	filePath = "./input.txt"
 	data, err := common.ReadInput(filePath)
 	if err != nil {
 		log.Fatal(err)
